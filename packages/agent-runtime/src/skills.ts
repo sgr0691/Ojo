@@ -1,5 +1,5 @@
 import type { AgentRuntimeRequest, AgentRuntimeContext, RuntimeDecision, RuntimeActionType, RuntimeExecutionReceipt } from './types'
-import { evaluate as policyEvaluate, type PolicyResult } from './policy'
+import { evaluate as policyEvaluate, outcomeToDecision, type PolicyResult } from './policy'
 
 export interface Skill {
   readonly actionType: RuntimeActionType
@@ -17,13 +17,6 @@ export interface EvaluatingSkill extends Skill {
   ): RuntimeExecutionReceipt
 }
 
-// ─── Outcome → RuntimeDecision ────────────────────────────────────────────────
-
-function toDecision(outcome: PolicyResult['outcome']): RuntimeDecision {
-  if (outcome === 'block') return 'block'
-  if (outcome === 'require_approval') return 'approval_required'
-  return 'allow' // 'allow' and 'warn' both permit execution
-}
 
 // ─── PackageInstallSkill ──────────────────────────────────────────────────────
 
@@ -77,7 +70,7 @@ export class ShellCommandSkill implements EvaluatingSkill {
       requestId: request.id,
       request: { ...request, payload: sanitizedPayload },
       context,
-      decision: toDecision(policyResult.outcome),
+      decision: outcomeToDecision(policyResult.outcome),
       decidedAt,
       evidence: { rule: policyResult.rule, reason: policyResult.reason, outcome: policyResult.outcome },
     }
@@ -116,7 +109,7 @@ export class FileMutationSkill implements EvaluatingSkill {
       requestId: request.id,
       request: { ...request, payload: safePayload },
       context,
-      decision: toDecision(policyResult.outcome),
+      decision: outcomeToDecision(policyResult.outcome),
       decidedAt,
       evidence: { rule: policyResult.rule, reason: policyResult.reason, outcome: policyResult.outcome },
     }

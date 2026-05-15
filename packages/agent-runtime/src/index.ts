@@ -19,8 +19,33 @@ export {
 
 export {
   evaluate as evaluatePolicy,
+  outcomeToDecision,
   POLICY_OUTCOMES,
   type PolicyOutcome,
   type PolicyResult,
   type PolicyRule,
 } from './policy'
+
+export {
+  createReceipt,
+  type ExecutionReceipt,
+  type EvidenceSummary,
+  type ReceiptTimestamps,
+  type CreateReceiptParams,
+} from './receipt'
+
+export {
+  initiateApproval,
+  resolveApproval,
+  APPROVAL_STATES,
+  type ApprovalState,
+  type ApprovalRequest,
+  type ApprovalOptions,
+} from './approval'
+
+export {
+  OjoRuntime,
+  type OjoRuntimeOptions,
+  type OjoEvaluateInput,
+  type OjoEvaluateResult,
+} from './sdk'

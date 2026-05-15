@@ -1,4 +1,4 @@
-import type { AgentRuntimeRequest } from './types'
+import type { AgentRuntimeRequest, RuntimeDecision } from './types'
 
 export const POLICY_OUTCOMES = ['allow', 'warn', 'require_approval', 'block'] as const
 
@@ -158,6 +158,12 @@ const DEFAULT_RULES: PolicyRule[] = [
   ruleSensitiveFile,
   ruleWorkflowMutation,
 ]
+
+export function outcomeToDecision(outcome: PolicyOutcome): RuntimeDecision {
+  if (outcome === 'block') return 'block'
+  if (outcome === 'require_approval') return 'approval_required'
+  return 'allow'
+}
 
 const ALLOW: PolicyResult = { outcome: 'allow', rule: 'default', reason: 'No policy rules triggered' }
 
