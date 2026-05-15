@@ -7,3 +7,11 @@ export {
   type AgentRuntimeContext,
   type RuntimeExecutionReceipt,
 } from './types'
+
+export {
+  createSkill,
+  PackageInstallSkill,
+  ShellCommandSkill,
+  FileMutationSkill,
+  type Skill,
+} from './skills'
