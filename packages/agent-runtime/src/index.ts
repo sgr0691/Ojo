@@ -15,3 +15,11 @@ export {
   FileMutationSkill,
   type Skill,
 } from './skills'
+
+export {
+  evaluate as evaluatePolicy,
+  POLICY_OUTCOMES,
+  type PolicyOutcome,
+  type PolicyResult,
+  type PolicyRule,
+} from './policy'
