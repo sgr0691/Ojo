@@ -14,6 +14,7 @@ export {
   ShellCommandSkill,
   FileMutationSkill,
   type Skill,
+  type EvaluatingSkill,
 } from './skills'
 
 export {
