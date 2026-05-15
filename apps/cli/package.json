@@ -1,27 +1,46 @@
 {
-  "name": "ojo",
+  "name": "@itssergio91/ojo",
   "version": "0.1.0-alpha",
-  "private": true,
+  "description": "Invisible runtime trust infrastructure for modern development and AI agents",
   "bin": {
     "ojo": "./dist/index.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "shim"
+  ],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "dev": "tsup --watch"
+    "dev": "tsup --watch",
+    "postinstall": "node -e \"try{require('./dist/index.js').initPostinstall()}catch(e){}\""
   },
-  "dependencies": {
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "author": "Sergio <itssergio91> (https://www.npmjs.com/~itssergio91)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgr0691/Ojo.git"
+  },
+  "homepage": "https://github.com/sgr0691/Ojo#readme",
+  "bugs": {
+    "url": "https://github.com/sgr0691/Ojo/issues"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "devDependencies": {
     "@ojo/shared": "workspace:*",
     "@ojo/interceptor": "workspace:*",
     "@ojo/providers": "workspace:*",
     "@ojo/risk-engine": "workspace:*",
-    "@ojo/monitor": "workspace:*"
-  },
-  "devDependencies": {
+    "@ojo/monitor": "workspace:*",
     "vitest": "^3.0.0"
   }
 }

@@ -1,6 +1,7 @@
 import { OJO_NAME, OJO_VERSION } from '@ojo/shared'
 import { parseNpmArgs, parsePnpmArgs, parseBunArgs } from '@ojo/interceptor'
 import { handleInstall } from './intercept'
+import { initCommand, initPostinstall } from './init'
 
 const args = process.argv.slice(2)
 const command = args[0] ?? ''
@@ -9,6 +10,10 @@ async function main(): Promise<void> {
   switch (command) {
     case 'shim':
       await handleShim(args.slice(1))
+      break
+
+    case 'init':
+      await initCommand()
       break
 
     case '--version':
@@ -26,6 +31,8 @@ async function main(): Promise<void> {
       break
   }
 }
+
+export { initPostinstall }
 
 async function handleShim(shimArgs: string[]): Promise<void> {
   const pm = shimArgs[0]
@@ -102,6 +109,7 @@ COMMANDS
   shim npm <args>    Handle intercepted npm command
   shim pnpm <args>   Handle intercepted pnpm command
   shim bun <args>    Handle intercepted bun command
+  init               Set up PATH shims for install interception
   --version, -v      Print version
   --help, -h         Print this help message
 

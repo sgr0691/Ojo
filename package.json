@@ -10,7 +10,9 @@
     "test:docker": "pnpm --filter @ojo/providers test:docker",
     "clean": "turbo run clean",
     "format": "prettier --check \"**/*.{ts,json,md}\"",
-    "format:fix": "prettier --write \"**/*.{ts,json,md}\""
+    "format:fix": "prettier --write \"**/*.{ts,json,md}\"",
+    "publish": "pnpm build && pnpm --filter ojo publish",
+    "publish:dry": "pnpm build && pnpm --filter ojo publish --dry-run"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

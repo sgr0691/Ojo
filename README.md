@@ -28,9 +28,9 @@ package ecosystems, and untrusted code execution.
 
 ## Current Status
 
-Ojo is currently in **source-only pre-alpha** (v0.1.0-alpha). The core pipeline
-is functional for Docker-backed sandboxing of `npm`, `pnpm`, and `bun` install
-commands. See [CHANGELOG](CHANGELOG.md) for the full release notes.
+Ojo is currently in **pre-alpha** (v0.1.0-alpha), available on npm. The core
+pipeline is functional for Docker-backed sandboxing of `npm`, `pnpm`, and `bun`
+install commands. See [CHANGELOG](CHANGELOG.md) for the full release notes.
 
 ### Implemented
 
@@ -127,58 +127,41 @@ these signals. See [Monitoring Limitations](#monitoring-limitations).
 ### Prerequisites
 
 - **Node.js** >= 22
-- **pnpm** >= 9 (install: `npm install -g pnpm`)
 - **Docker** (for the local sandbox provider)
 
-### 1. Clone and build
+### 1. Install via npm (recommended)
+
+```bash
+npm install -g @itssergio91/ojo
+ojo init    # sets up PATH shims for install interception
+```
+
+Then try it:
+
+```bash
+npm install is-odd
+# Ojo: SAFE (0) — allowing install
+# + is-odd@3.0.1
+# added 1 package in 0.5s
+```
+
+### 2. Or build from source (for contributors)
 
 ```bash
 git clone https://github.com/sgr0691/Ojo.git
 cd ojo
 pnpm install
 pnpm build
-```
 
-### 2. Test the CLI
-
-```bash
-# Check version
-node apps/cli/dist/index.js --version
-
-# Test install detection (requires Docker)
-node apps/cli/dist/index.js shim npm install is-odd
-# → "Docker not available — skipping sandbox analysis" (if no Docker)
-# → "SAFE (0) — allowing install" (if Docker is running)
-```
-
-### 3. Intercept real npm installs
-
-```bash
-# Add to your shell profile (~/.zshrc, ~/.bashrc, etc.) for persistence:
-export PATH="/path/to/ojo/apps/cli/shim:$PATH"
-
-# For temporary use in the current shell:
+# Add shims to PATH:
 export PATH="$PWD/apps/cli/shim:$PATH"
+# Or: bash apps/cli/install.sh
 
-# Now npm/pnpm/bun installs go through Ojo
+# Test it:
 npm install is-odd
-# Ojo: SAFE (0) — allowing install
-# + is-odd@3.0.1
-# added 1 package in 0.5s
-
-# pnpm also works
-pnpm add is-odd
-
-# bun also works
-bun add is-odd
-
-# Non-install commands pass through silently
-npm run dev
-pnpm test
-bun run dev
 ```
 
-### 4. Override flags
+### Override flags
 
 ```bash
 # Skip analysis entirely (logs audit warning)

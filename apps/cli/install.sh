@@ -2,9 +2,9 @@
 # Ojo Installer — adds shims to PATH
 set -euo pipefail
 
-OJO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-SHIM_DIR="$OJO_DIR/apps/cli/shim"
-OJO_CLI_DIR="$OJO_DIR/apps/cli/dist"
+OJO_DIR="$(cd "$(dirname "$0")" && pwd)"
+SHIM_DIR="$OJO_DIR/shim"
+OJO_CLI_DIR="$OJO_DIR/dist"
 
 echo "Ojo Installer"
 echo "============="

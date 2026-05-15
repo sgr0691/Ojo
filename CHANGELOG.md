@@ -1,9 +1,18 @@
 # Changelog
 
-## v0.1.0-alpha (2026-05-15) — Source-Only Pre-Alpha
+## v0.1.0-alpha (2026-05-15) — npm Pre-Alpha
 
-**Source-only pre-alpha release.** Ojo is not published to npm or Homebrew.
-Installation requires cloning the repo and building from source (see [README](README.md)).
+**First npm release.** Ojo is now available via `npm install -g ojo`.
+Internal `@ojo/*` packages are bundled into the CLI binary so no workspace
+dependencies are needed at runtime.
+
+### What's New
+
+- **npm publish** — `npm install -g ojo` is now the recommended install path
+- **`ojo init` command** — auto-detects shell profile and adds shim directory to PATH
+- **Postinstall banner** — prints setup instructions on `npm install -g ojo`
+- **Bundled dependencies** — `@ojo/*` packages are bundled via tsup `noExternal` into a single CLI file
+- **`install.sh` fixed** — paths now work correctly from the npm global installation directory
 
 ### What Works
 
@@ -50,6 +59,11 @@ Installation requires cloning the repo and building from source (see [README](RE
 ### Install / Setup
 
 ```bash
+# Recommended: install from npm
+npm install -g ojo
+ojo init
+
+# Or build from source:
 git clone <repo> && cd ojo && pnpm install && pnpm build
 export PATH="$PWD/apps/cli/shim:$PATH"   # temporary
 # or: bash apps/cli/install.sh           # persistent (adds to shell profile)
