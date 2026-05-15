@@ -1,0 +1,29 @@
+{
+  "name": "@ojo/providers",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:docker": "OJO_DOCKER_TESTS=1 vitest run src/__tests__/docker-compat.test.ts",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@ojo/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0"
+  }
+}

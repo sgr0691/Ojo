@@ -1,0 +1,35 @@
+#!/bin/bash
+# Ojo npm shim
+# Intercepts npm calls and routes them through Ojo's trust layer.
+# Gets placed into PATH ahead of the real npm binary.
+
+SHIM_DIR="$(cd "$(dirname "$0")" && pwd)"
+OJO_CLI="$(cd "$SHIM_DIR/../dist" && pwd)/index.js"
+
+find_real_npm() {
+  IFS=':' read -ra PARTS <<< "$PATH"
+  for PART in "${PARTS[@]}"; do
+    ABS_PART="$(cd "$PART" 2>/dev/null && pwd || echo "$PART")"
+    if [ "$ABS_PART" != "$SHIM_DIR" ] && [ -x "$PART/npm" ]; then
+      echo "$PART/npm"
+      return 0
+    fi
+  done
+  return 1
+}
+
+REAL_NPM=$(find_real_npm)
+if [ -z "$REAL_NPM" ]; then
+  echo "Ojo: error - cannot find real npm" >&2
+  exit 1
+fi
+
+node "$OJO_CLI" shim npm "$@"
+OJO_EXIT=$?
+
+# If Ojo blocked the install, stop here
+if [ $OJO_EXIT -ne 0 ]; then
+  exit $OJO_EXIT
+fi
+
+exec "$REAL_NPM" "$@"

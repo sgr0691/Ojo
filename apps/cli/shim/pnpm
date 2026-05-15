@@ -1,0 +1,34 @@
+#!/bin/bash
+# Ojo pnpm shim
+# Intercepts pnpm calls and routes them through Ojo's trust layer.
+# Gets placed into PATH ahead of the real pnpm binary.
+
+SHIM_DIR="$(cd "$(dirname "$0")" && pwd)"
+OJO_CLI="$(cd "$SHIM_DIR/../dist" && pwd)/index.js"
+
+find_real_pnpm() {
+  IFS=':' read -ra PARTS <<< "$PATH"
+  for PART in "${PARTS[@]}"; do
+    ABS_PART="$(cd "$PART" 2>/dev/null && pwd || echo "$PART")"
+    if [ "$ABS_PART" != "$SHIM_DIR" ] && [ -x "$PART/pnpm" ]; then
+      echo "$PART/pnpm"
+      return 0
+    fi
+  done
+  return 1
+}
+
+REAL_PNPM=$(find_real_pnpm)
+if [ -z "$REAL_PNPM" ]; then
+  echo "Ojo: error - cannot find real pnpm" >&2
+  exit 1
+fi
+
+node "$OJO_CLI" shim pnpm "$@"
+OJO_EXIT=$?
+
+if [ $OJO_EXIT -ne 0 ]; then
+  exit $OJO_EXIT
+fi
+
+exec "$REAL_PNPM" "$@"

@@ -1,0 +1,27 @@
+{
+  "name": "ojo",
+  "version": "0.1.0-alpha",
+  "private": true,
+  "bin": {
+    "ojo": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@ojo/shared": "workspace:*",
+    "@ojo/interceptor": "workspace:*",
+    "@ojo/providers": "workspace:*",
+    "@ojo/risk-engine": "workspace:*",
+    "@ojo/monitor": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0"
+  }
+}
