@@ -1,6 +1,6 @@
 {
   "name": "@itssergio91/ojo",
-  "version": "0.1.0-alpha",
+  "version": "0.1.1",
   "description": "Invisible runtime trust infrastructure for modern development and AI agents",
   "bin": {
     "ojo": "./dist/index.js"
@@ -17,7 +17,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "tsup --watch",
-    "postinstall": "node -e \"try{require('./dist/index.js').initPostinstall()}catch(e){}\""
+    "postinstall": "chmod +x shim/npm shim/pnpm shim/bun 2>/dev/null && node -e \"try{require('./dist/index.js').initPostinstall()}catch(e){}\""
   },
   "publishConfig": {
     "access": "public"
