@@ -11,8 +11,8 @@
     "clean": "turbo run clean",
     "format": "prettier --check \"**/*.{ts,json,md}\"",
     "format:fix": "prettier --write \"**/*.{ts,json,md}\"",
-    "publish": "pnpm build && pnpm --filter ojo publish",
-    "publish:dry": "pnpm build && pnpm --filter ojo publish --dry-run"
+    "publish": "pnpm build && pnpm --filter @itssergio91/ojo publish --no-git-checks",
+    "publish:dry": "pnpm build && pnpm --filter @itssergio91/ojo publish --dry-run --no-git-checks"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
